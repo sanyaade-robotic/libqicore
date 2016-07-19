@@ -1,6 +1,6 @@
 <project version="3">
   <qibuild name="qilaunch">
     <depends buildtime="true" runtime="true" names="qt" />
-    <depends buildtime="true" runtime="true" names="libqicore" />
+    <depends buildtime="true" runtime="true" names="libqicore breakpad" />
   </qibuild>
 </project>
