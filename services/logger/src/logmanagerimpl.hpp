@@ -51,7 +51,7 @@ public:
   void recomputeCategories();
   void recomputeVerbosities(qi::LogLevel from, qi::LogLevel to);
 
-  void pushBacklog(LogListener* listener);
+  Future<void> pushBacklog(LogListener* listener);
 
   qi::LogLevel _maxLevel;
   std::vector<std::pair<std::string, qi::LogLevel> > _filters;

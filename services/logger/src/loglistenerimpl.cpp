@@ -67,7 +67,7 @@ LogListenerImpl::LogListenerImpl(LogManagerImpl& l)
 }
 
 // LogListenerImpl Class
-LogListenerImpl::LogListenerImpl(LogManagerImpl& l, boost::function<void(qi::LogListener*)> func)
+LogListenerImpl::LogListenerImpl(LogManagerImpl& l, boost::function<Future<void>(qi::LogListener*)> func)
   : LogListener({},
                 boost::bind(&set_verbosity, this, _1, _2),
                 boost::bind(func, this))

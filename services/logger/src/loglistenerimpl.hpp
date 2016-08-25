@@ -25,7 +25,7 @@ class LogListenerImpl : public LogListener
 {
 public:
   LogListenerImpl(LogManagerImpl& l);
-  LogListenerImpl(LogManagerImpl& l, boost::function<void(LogListener*)> func);
+  LogListenerImpl(LogManagerImpl& l, boost::function<Future<void>(LogListener*)> func);
 
   ~LogListenerImpl() override;
 

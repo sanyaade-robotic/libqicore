@@ -72,7 +72,7 @@ LogManagerImpl::~LogManagerImpl()
   DEBUG("LM ~LogManager");
 }
 
-void LogManagerImpl::pushBacklog(qi::LogListener* listener)
+Future<void> LogManagerImpl::pushBacklog(qi::LogListener* listener)
 {
   boost::mutex::scoped_lock dataLock(_dataMutex);
   std::vector<qi::LogMessage> historyLog;
@@ -80,6 +80,7 @@ void LogManagerImpl::pushBacklog(qi::LogListener* listener)
     historyLog.push_back(_historyMessages[i]);
 
   listener->onLogMessagesWithBacklog(historyLog);
+  return Future<void>{0};
 }
 
 void LogManagerImpl::log(const std::vector<LogMessage>& msgs)
