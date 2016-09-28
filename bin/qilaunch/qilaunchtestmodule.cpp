@@ -8,11 +8,11 @@ qiLogCategory("testmodule");
 
 struct MyData
 {
-  std::string peripateticien;
-  int dodecahedre;
+  std::string str;
+  int n;
 };
 
-QI_TYPE_STRUCT(MyData, peripateticien, dodecahedre)
+QI_TYPE_STRUCT(MyData, str, n)
 
 struct MyService
 {
@@ -56,10 +56,10 @@ void funcWithArgs(double ceciNestPasUnNombre, std::string tangaCestMieux, MyData
   qi::Application::stop();
 }
 
-void funcWithSessionAndArgs(qi::SessionPtr, double ceciNestPasUnNombre, std::string tangaCestMieux, MyData ohMy)
+void funcWithSessionAndArgs(qi::SessionPtr, double d, std::string str, MyData ohMy)
 {
-  qiLogInfo() << "Func called with session and: " << ceciNestPasUnNombre
-              << ", " << tangaCestMieux << ", " << qi::encodeJSON(ohMy);
+  qiLogInfo() << "Func called with session and: " << d
+              << ", " << str << ", " << qi::encodeJSON(ohMy);
   qi::Application::stop();
 }
 
