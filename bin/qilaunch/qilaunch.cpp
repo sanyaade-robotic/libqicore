@@ -66,10 +66,16 @@ _QI_COMMAND_LINE_OPTIONS(
   ("name,n", value<std::string>(&launcherName), "Name of the launcher used to prefix logs and breakpad dump files")
 )
 
-void stopOnError(qi::Future<void> fut, const std::string& name)
+void stopOnError(qi::Future<qi::AnyValue> fut, const std::string& name)
 {
   if (fut.hasValue())
-    return;
+  {
+    auto value = fut.value();
+    if (value.kind() == qi::TypeKind_Void)
+      qiLogInfo() << "Call succeeded";
+    else
+      qiLogInfo() << "Call succeeded with result: " << qi::encodeJSON(value);
+  }
   else if (fut.hasError())
     qiLogFatal() << name << " has finished with an error: " << fut.error();
   else if (fut.isCanceled())
@@ -261,15 +267,14 @@ int main(int argc, char** argv)
         qi::AnyReferenceVector metaCallArgs;
         for(auto& arg: *args)
           metaCallArgs.push_back(qi::AnyReference::from(arg));
-        qi::Future<void> fut = app.session()->callModule<void>(extractedFunctionName, metaCallArgs);
-        futures.emplace_back(fut.then([args, function](qi::Future<void> f){ stopOnError(f, function); }));
+        qi::Future<qi::AnyValue> fut = app.session()->callModule<qi::AnyValue>(extractedFunctionName, metaCallArgs);
+        futures.emplace_back(fut.then([args, function](qi::Future<qi::AnyValue> f){ stopOnError(f, function); }));
       }
     }
 
     if (!objects.empty() || !legacy.empty() || keepRunning)
       app.run();
-    else
-      // just wait for the functions to finish
+    else // just wait for the functions to finish
       for (const auto& future : futures)
         future.wait();
   }
