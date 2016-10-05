@@ -184,7 +184,9 @@ int main(int argc, char** argv)
 
   objects.insert(objects.end(), modules.begin(), modules.end());
 
-  if (objects.empty() && functions.empty() && legacy.empty())
+  if (app.standAlone())
+    keepRunning = true;
+  else if (objects.empty() && functions.empty() && legacy.empty())
   {
     qiLogFatal() << "No object to load and no function to call, add one with --object, --legacy or --function";
     return 1;
