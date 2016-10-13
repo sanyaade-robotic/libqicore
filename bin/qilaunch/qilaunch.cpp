@@ -49,7 +49,16 @@ void stage1(int s)
   qiLogInfo() << "Signal received, exiting...";
   std::lock_guard<std::mutex> futuresLock(futuresMutex);
   for (auto& future: futures)
-    future.cancel();
+  {
+    try
+    {
+      future.cancel();
+    }
+    catch (const std::exception& e)
+    {
+      qiLogError() << "Error caught on call cancellation: " << e.what();
+    }
+  }
   qi::Application::atSignal(&stage2, s);
 }
 
