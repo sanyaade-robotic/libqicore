@@ -70,7 +70,7 @@ void stopOnError(qi::Future<qi::AnyValue> fut, const std::string& name)
 {
   if (fut.hasValue())
   {
-    auto value = fut.value();
+    const auto& value = fut.value();
     if (value.kind() == qi::TypeKind_Void)
       qiLogInfo() << "Call succeeded";
     else
