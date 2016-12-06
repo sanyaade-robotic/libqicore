@@ -32,6 +32,8 @@ static int exitStatus = 0;
 
 qiLogCategory("qilaunch");
 
+/// In stage 2, we exit the process right away,
+/// regardless the state of the ongoing calls.
 void stage2(int)
 {
   qiLogInfo() << "Signal received again, forcing exit...";
@@ -44,6 +46,8 @@ void stage2(int)
 #endif
 }
 
+/// In stage 1, we request the cancellation every ongoing calls,
+/// but we still wait gently for them.
 void stage1(int s)
 {
   qiLogInfo() << "Signal received, exiting...";
